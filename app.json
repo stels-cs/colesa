@@ -1,0 +1,12 @@
+{
+  "name": "Colesa bot",
+  "description": "Notification on new cars in colesa.com",
+  "keywords": [
+    "colesa",
+    "go"
+  ],
+  "image": "heroku/go:1.6",
+  "mount_dir": "src/github.com/stels-cs/colesa",
+  "website": "http://github.com/stels-cs/colesa",
+  "repository": "http://github.com/stels-cs/clesa"
+}
