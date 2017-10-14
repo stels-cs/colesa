@@ -36,7 +36,7 @@ func main() {
 		broadcaster: InitVkBroadcaster( broadcastUrl ),
 		header: "",
 		footer: "",
-		listMap: make(map[string]int),
+		listMap: modelToListId,
 		defaultListId: defaultChannelId,
 	}
 
