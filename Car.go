@@ -10,5 +10,5 @@ type Car struct {
 
 
 func (car Car) toString() string {
-	return car.Name + " " + car.Model.Name
+	return car.Name
 }

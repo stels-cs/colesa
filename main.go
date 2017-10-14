@@ -15,6 +15,7 @@ var modelToListId map[string]int = map[string]int{
 	"Kia Rio" : 183995,
 	"Fiat 500" : 183996,
 	"Ford Fiesta" : 183997,
+	"Skoda Octavia" : 184320,
 }
 
 
