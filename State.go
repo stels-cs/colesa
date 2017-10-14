@@ -46,7 +46,7 @@ func (state *State) Tick() {
 		}
 
 		if state.heatbeat % 30 == 0 {
-			state.logger.Println("Updated")
+			state.logger.Println("UPD:", len(updates), "cars online")
 		}
 
 	} else {
