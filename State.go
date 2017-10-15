@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"runtime"
 )
 
 type State struct {
@@ -47,6 +48,7 @@ func (state *State) Tick() {
 
 		if state.heatbeat % 30 == 0 {
 			state.logger.Println("UPD:", len(updates), "cars online")
+			state.mem()
 		}
 
 	} else {
@@ -100,4 +102,11 @@ func (state *State) IsLiveCar(car Car) bool {
 		}
 	}
 	return false
+}
+
+
+func (state *State) mem() {
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+	state.logger.Printf("Alloc = %v TotalAlloc = %v Sys = %v NumGC = %v \n", m.Alloc / 1024, m.TotalAlloc / 1024, m.Sys / 1024, m.NumGC)
 }
