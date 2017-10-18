@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"io/ioutil"
+	"strings"
 )
 
 type ColesaResponse struct {
@@ -27,11 +28,21 @@ func (f *ColesaFetcher) fetch() ([]Car, error) {
 		return nil, err
 	}
 
+
 	response := ColesaResponse{}
 	err = json.Unmarshal(data, &response)
 	if err != nil {
 		return nil, err
 	}
+
+	if strings.Index(string(data), "Mini") != -1 {
+		println("Mini at response")
+	}
+
+	if strings.Index(string(data), "mini") != -1 {
+		println("Mini at response")
+	}
+
 	return response.Data, nil
 }
 
