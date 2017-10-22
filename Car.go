@@ -9,8 +9,9 @@ type Car struct {
 	Color struct {
 		Name string `json:"name"`
 	} `json:"color"`
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
+	Latitude             float64 `json:"latitude"`
+	Longitude            float64 `json:"longitude"`
+	CurrentBookingStatus string  `json:"current_booking_status"`
 }
 
 func (car Car) toString() string {

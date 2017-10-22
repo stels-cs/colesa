@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"runtime"
+	"strconv"
 )
 
 type State struct {
@@ -48,11 +49,30 @@ func (state *State) Tick() {
 		if state.heatbeat%30 == 0 {
 			state.logger.Println("UPD:", len(updates), "cars online")
 			state.mem()
+			state.miniWatch()
 		}
 
 	} else {
 		state.InitWithUpdates(updates)
 	}
+}
+func (state *State) miniWatch() {
+
+	cars, err := state.fetcher.GetMiniCooperInfo()
+
+	if err == nil {
+		for _, car := range cars {
+			println(
+				car.Name,
+				car.CurrentBookingStatus,
+				strconv.FormatFloat(car.Latitude, 'f', -1, 32),
+				strconv.FormatFloat(car.Longitude, 'f', -1, 32),
+			)
+		}
+	} else {
+		println("Fetching rents error", err.Error())
+	}
+
 }
 
 func (state *State) GetEventsFromUpdate(cars []Car) []BroadcastEvent {
