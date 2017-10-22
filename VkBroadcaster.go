@@ -1,10 +1,10 @@
 package main
 
 import (
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
-	"io/ioutil"
 	"strings"
 )
 
@@ -23,9 +23,11 @@ func (err *VkBroadcasterError) Error() string {
 func (vk *VkBroadcaster) broadcast(event BroadcastEvent) error {
 	data, err := http.PostForm(vk.url,
 		url.Values{
-			"message[message]" : {event.message},
-			"list_ids[]" : {strconv.Itoa(event.listId)},
-			"run_now": {"1"},
+			"message[message]": {event.message},
+			"message[lat]":     {strconv.FormatFloat(event.lat, 'f', -1, 64)},
+			"message[long]":    {strconv.FormatFloat(event.long, 'f', -1, 64)},
+			"list_ids[]":       {strconv.Itoa(event.listId)},
+			"run_now":          {"1"},
 		},
 	)
 	if err != nil {
@@ -39,10 +41,10 @@ func (vk *VkBroadcaster) broadcast(event BroadcastEvent) error {
 		return err
 	}
 
-	if strings.Index( string(json), "response" ) != -1 {
+	if strings.Index(string(json), "response") != -1 {
 		return nil
 	} else {
-		return &VkBroadcasterError{"Bad response: " + string(json) }
+		return &VkBroadcasterError{"Bad response: " + string(json)}
 	}
 
 }

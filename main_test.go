@@ -17,11 +17,7 @@ func getCar(number string, name string, model string) Car {
 }
 
 func getEvent(id int, message string) BroadcastEvent {
-	return BroadcastEvent{id, message}
-}
-
-func isEqualEvent(ev1 BroadcastEvent, ev2 BroadcastEvent) bool {
-	return (ev1.listId == ev2.listId) && (ev1.message == ev2.message)
+	return BroadcastEvent{id, message, 0, 0}
 }
 
 func getLogger() *log.Logger {

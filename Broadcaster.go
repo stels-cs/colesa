@@ -1,17 +1,18 @@
 package main
 
 type BroadcastEvent struct {
-	listId int
+	listId  int
 	message string
+	lat     float64
+	long    float64
 }
 
 type Broadcaster interface {
 	broadcast(event BroadcastEvent) error
 }
 
-
 type FakeBroadcaster struct {
-	lastEvent BroadcastEvent
+	lastEvent     BroadcastEvent
 	responseError error
 }
 

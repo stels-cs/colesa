@@ -6,18 +6,17 @@ import (
 )
 
 type State struct {
-	isInit bool
-	available []Car
-	logger *log.Logger
-	fetcher Fetcher
-	broadcaster Broadcaster
-	header string
-	footer string
-	listMap map[string]int
+	isInit        bool
+	available     []Car
+	logger        *log.Logger
+	fetcher       Fetcher
+	broadcaster   Broadcaster
+	header        string
+	footer        string
+	listMap       map[string]int
 	defaultListId int
-	heatbeat int
+	heatbeat      int
 }
-
 
 func (state *State) Tick() {
 
@@ -46,7 +45,7 @@ func (state *State) Tick() {
 			state.heatbeat++
 		}
 
-		if state.heatbeat % 30 == 0 {
+		if state.heatbeat%30 == 0 {
 			state.logger.Println("UPD:", len(updates), "cars online")
 			state.mem()
 		}
@@ -57,20 +56,20 @@ func (state *State) Tick() {
 }
 
 func (state *State) GetEventsFromUpdate(cars []Car) []BroadcastEvent {
-		events := make([]BroadcastEvent, 0, 5)
-		for _, car := range cars {
-			if !state.IsLiveCar(car) {
-				events = append(events, state.GetEventForCar(car))
-			}
+	events := make([]BroadcastEvent, 0, 5)
+	for _, car := range cars {
+		if !state.IsLiveCar(car) {
+			events = append(events, state.GetEventForCar(car))
 		}
-		return events
+	}
+	return events
 }
 
 func (state *State) GetEventForCar(car Car) BroadcastEvent {
 	listId := state.getListIdByModelName(car.Model.Name)
 	message := state.getMessageForCar(car)
 
-	return BroadcastEvent{listId, message}
+	return BroadcastEvent{listId, message, car.Latitude, car.Longitude}
 }
 
 func (state *State) getListIdByModelName(model string) int {
@@ -83,7 +82,7 @@ func (state *State) getListIdByModelName(model string) int {
 }
 
 func (state *State) getMessageForCar(car Car) string {
-		return state.header  + car.toString()  + state.footer
+	return state.header + car.toString() + state.footer
 }
 
 func (state *State) InitWithUpdates(cars []Car) {
@@ -104,9 +103,8 @@ func (state *State) IsLiveCar(car Car) bool {
 	return false
 }
 
-
 func (state *State) mem() {
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
-	state.logger.Printf("Alloc = %v TotalAlloc = %v Sys = %v NumGC = %v \n", m.Alloc / 1024, m.TotalAlloc / 1024, m.Sys / 1024, m.NumGC)
+	state.logger.Printf("Alloc = %v TotalAlloc = %v Sys = %v NumGC = %v \n", m.Alloc/1024, m.TotalAlloc/1024, m.Sys/1024, m.NumGC)
 }
