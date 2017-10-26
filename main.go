@@ -6,17 +6,17 @@ import (
 	"time"
 )
 
-var defaultChannelId int = 183998
+var defaultChannelId int = 194659
 
 var modelToListId map[string]int = map[string]int{
-	"Hyundai Solaris": 183992,
-	"Skoda Rapid":     183993,
-	"Smart Fortwo":    183994,
-	"Kia Rio":         183995,
-	"Fiat 500":        183996,
-	"Ford Fiesta":     183997,
-	"Skoda Octavia":   184320,
-	"Mini Cooper":     189442,
+	"Hyundai Solaris": 194650,
+	"Skoda Rapid":     194656,
+	"Smart Fortwo":    194648,
+	"Kia Rio":         194651,
+	"Fiat 500":        194647,
+	"Ford Fiesta":     194652,
+	"Skoda Octavia":   194654,
+	"Mini Cooper":     194646,
 }
 
 func main() {
