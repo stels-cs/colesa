@@ -2,8 +2,6 @@ package main
 
 import (
 	"log"
-	"runtime"
-	"strconv"
 )
 
 type State struct {
@@ -16,7 +14,6 @@ type State struct {
 	footer        string
 	listMap       map[string]int
 	defaultListId int
-	heatbeat      int
 }
 
 func (state *State) Tick() {
@@ -39,40 +36,9 @@ func (state *State) Tick() {
 			}
 		}
 		state.available = updates
-
-		if len(events) > 0 {
-			state.heatbeat = 1
-		} else {
-			state.heatbeat++
-		}
-
-		if state.heatbeat%30 == 0 {
-			state.logger.Println("UPD:", len(updates), "cars online")
-			state.mem()
-			state.miniWatch()
-		}
-
 	} else {
 		state.InitWithUpdates(updates)
 	}
-}
-func (state *State) miniWatch() {
-
-	cars, err := state.fetcher.GetMiniCooperInfo()
-
-	if err == nil {
-		for _, car := range cars {
-			println(
-				car.Name,
-				car.CurrentBookingStatus,
-				strconv.FormatFloat(car.Latitude, 'f', -1, 32),
-				strconv.FormatFloat(car.Longitude, 'f', -1, 32),
-			)
-		}
-	} else {
-		println("Fetching rents error", err.Error())
-	}
-
 }
 
 func (state *State) GetEventsFromUpdate(cars []Car) []BroadcastEvent {
@@ -121,10 +87,4 @@ func (state *State) IsLiveCar(car Car) bool {
 		}
 	}
 	return false
-}
-
-func (state *State) mem() {
-	var m runtime.MemStats
-	runtime.ReadMemStats(&m)
-	state.logger.Printf("Alloc = %v TotalAlloc = %v Sys = %v NumGC = %v \n", m.Alloc/1024, m.TotalAlloc/1024, m.Sys/1024, m.NumGC)
 }
